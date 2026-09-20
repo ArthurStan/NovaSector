@@ -142,3 +142,15 @@
 /obj/projectile/hivebotbullet
 	damage = 10
 	damage_type = BRUTE
+
+/mob/living/basic/hivebot/refined
+	name = "Refined Hivebot"
+	icon = 'icons/mob/simple/animal64.dmi'
+	icon_state = "bot"
+	icon_living = "bot"
+	icon_dead = "roachor_dead"
+	desc = "A robot, this one is armed and looks tough!"
+	health = 80
+	maxHealth = 80
+	ranged_attacker = TRUE
+	ai_controller = /datum/ai_controller/basic_controller/hivebot/ranged

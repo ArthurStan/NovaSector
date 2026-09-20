@@ -33,3 +33,7 @@
 /datum/map_template/shuttle/pirate/medieval
 	suffix = "medieval"
 	name = "pirate ship (Siege Pod)"
+
+/datum/map_template/shuttle/pirate/nevermore
+	suffix = "nevermore"
+	name = "pirate ship (ISV Nevermore)"

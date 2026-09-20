@@ -181,6 +181,21 @@ for further reading, please see: https://github.com/tgstation/tgstation/pull/301
 	armour_penetration = 20
 	block_chance = 30
 
+/obj/item/claymore/cutlass/bull
+	name = "Swashbuckler's Cutlass"
+	desc = "A piratey sword used by swashbucklers during their \"adventurous\" lifestyles."
+	icon_state = "swashlass"
+	inhand_icon_state = "swashlass"
+	worn_icon_state = "swashlass"
+	slot_flags = ITEM_SLOT_BACK
+	block_chance = 35
+	force = 15
+	wound_bonus = 15
+	throwforce = 15
+	throw_speed = 5
+	throw_range = 3
+	armour_penetration = 35
+
 /obj/item/claymore/carrot
 	name = "carrot sword"
 	desc = "A full-sized carrot sword. Definitely <b>not</b> good for the eyes, not anymore."
@@ -935,12 +950,14 @@ for further reading, please see: https://github.com/tgstation/tgstation/pull/301
 	name = "baseball bat"
 	desc = "There ain't a skull in the league that can withstand a swatter."
 	icon = 'icons/obj/weapons/bat.dmi'
-	icon_state = "baseball_bat"
-	inhand_icon_state = "baseball_bat"
-	icon_angle = -45
+	icon_state = "baseball_bat0"
+	base_icon_state = "baseball_bat"
 	lefthand_file = 'icons/mob/inhands/weapons/melee_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/weapons/melee_righthand.dmi'
-	force = 12
+	worn_icon_state = "baseball_bat"
+	slot_flags = ITEM_SLOT_BELT | ITEM_SLOT_BACK
+	armor_type = /datum/armor/item_baseballbat
+	force = 10
 	wound_bonus = -10
 	throwforce = 12
 	demolition_mod = 1.25
@@ -948,7 +965,13 @@ for further reading, please see: https://github.com/tgstation/tgstation/pull/301
 	attack_verb_simple = list("beat", "smack")
 	custom_materials = list(/datum/material/wood = SHEET_MATERIAL_AMOUNT * 3.5)
 	resistance_flags = FLAMMABLE
+	obj_flags = UNIQUE_RENAME
+	block_chance = 20
 	w_class = WEIGHT_CLASS_HUGE
+	/// How much damage to do unwielded
+	var/force_unwielded = 10
+	/// How much damage to do wielded
+	var/force_wielded = 18
 	/// Are we able to do a homerun?
 	var/homerun_able = FALSE
 	/// Are we ready to do a homerun?
@@ -957,15 +980,40 @@ for further reading, please see: https://github.com/tgstation/tgstation/pull/301
 	var/mob_thrower = FALSE
 	/// List of all thrown datums we sent.
 	var/list/thrown_datums = list()
+	/// The icon prefix for this flavor of spear
+	var/icon_prefix = "baseball_bat0"
+	var/deflectmode = TRUE // deflect small/medium thrown objects
+	var/lastdeflect
+	/// makes beam projectiles pass through the shield
+	var/transparent = FALSE
+	/// if the shield will break by sustaining damage
+	var/breakable_by_damage = TRUE
+	/// what the shield leaves behind when it breaks
+	var/shield_break_leftover = /obj/item/stack/sheet/mineral/wood
+	/// sound the shield makes when it breaks
+	var/shield_break_sound = 'sound/effects/bang.ogg'
+	block_sound = 'sound/items/weapons/block_shield.ogg'
+
+/datum/armor/item_baseballbat
+	melee = 10
+	wound = 10
 
 /obj/item/melee/baseball_bat/Initialize(mapload)
 	. = ..()
+	if(prob(1))
+		name = "cricket bat"
+		icon_state = "baseball_bat_brit"
+		inhand_icon_state = "baseball_bat_brit"
+		desc = pick("You've got red on you.", "You gotta know what a crumpet is to understand cricket.")
+
+	AddComponent(/datum/component/two_handed, force_unwielded=force_unwielded, force_wielded=force_wielded, icon_wielded="[base_icon_state]1")
+
+/obj/item/melee/baseball_bat/update_icon_state()
+	icon_state = "[base_icon_state]0"
+	return ..()
+
 	AddElement(/datum/element/kneecapping)
-	// No subtypes
-	if(type != /obj/item/melee/baseball_bat)
-		return
-	if(prob(check_holidays(APRIL_FOOLS) ? 50 : 1))
-		make_silly()
+
 
 /obj/item/melee/baseball_bat/attack_self(mob/user)
 	if(!homerun_able)
@@ -1006,63 +1054,45 @@ for further reading, please see: https://github.com/tgstation/tgstation/pull/301
 	thrown_datums.Cut()
 	return ..()
 
-/obj/item/melee/baseball_bat/pre_attack(atom/movable/target, mob/living/user, list/modifiers)
-	var/turf/target_turf = get_turf(target)
-	if(!target_turf)
-		return ..()
-	for(var/atom/movable/atom as anything in target_turf)
-		if(!try_launch(atom, user))
-			continue
+
+/obj/item/melee/baseball_bat/examine(mob/user)
+	. = ..()
+	var/healthpercent = round((atom_integrity/max_integrity) * 100, 1)
+	switch(healthpercent)
+		if(50 to 99)
+			. += span_info("It looks slightly damaged.")
+		if(25 to 50)
+			. += span_info("It appears heavily damaged.")
+		if(0 to 25)
+			. += span_warning("It's falling apart!")
+
+/obj/item/melee/baseball_bat/proc/on_shield_block(mob/living/carbon/human/owner, atom/movable/hitby, attack_text = "the attack", damage = 0, attack_type = MELEE_ATTACK, damage_type = BRUTE)
+	if(!breakable_by_damage || (damage_type != BRUTE && damage_type != BURN))
 		return TRUE
+	var/penetration = 0
+	var/armor_flag = MELEE
+	if(isprojectile(hitby))
+		var/obj/projectile/bang_bang = hitby
+		armor_flag = bang_bang.armor_flag
+		penetration = bang_bang.armour_penetration
+	else if(isitem(hitby))
+		var/obj/item/weapon = hitby
+		penetration = weapon.armour_penetration
+	else if(isanimal(hitby))
+		var/mob/living/simple_animal/critter = hitby
+		penetration = critter.armour_penetration
+	else if(isbasicmob(hitby))
+		var/mob/living/basic/critter = hitby
+		penetration = critter.armour_penetration
+	take_damage(damage, damage_type, armor_flag, armour_penetration = penetration)
+
+/obj/item/melee/baseball_bat/atom_destruction(damage_flag)
+	playsound(src, shield_break_sound, 50)
+	new shield_break_leftover(get_turf(src))
+	if(isliving(loc))
+		loc.balloon_alert(loc, "bat broken!")
 	return ..()
-
-/obj/item/melee/baseball_bat/proc/try_launch(atom/movable/target, mob/living/user)
-	if(!target.throwing || (ismob(target) && !mob_thrower))
-		return FALSE
-	var/datum/thrownthing/throw_datum = target.throwing
-	var/datum_throw_speed = throw_datum.speed
-	var/angle = 0
-	var/target_to_user = get_dir(target, user)
-	if(target.dir & turn(target_to_user, 90))
-		angle = 270
-	if(target.dir & turn(target_to_user, 270))
-		angle = 90
-	if(target.dir & REVERSE_DIR(target_to_user))
-		angle = 180
-	if(target.dir & target_to_user)
-		angle = 360
-	var/turf/return_to_sender = get_ranged_target_turf_direct(user, throw_datum.starting_turf, max(3, round(target.throw_range * 1.5, 1)), offset = angle + (rand(-1, 1) * 10))
-	throw_datum.finalize(hit = FALSE)
-	target.mouse_opacity = MOUSE_OPACITY_TRANSPARENT //dont mess with our ball
-	target.color = list(1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,3) //make them super light
-	animate(target, 0.5 SECONDS, color = null, flags = ANIMATION_PARALLEL)
-	user.color = list(1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,3)
-	animate(user, 0.5 SECONDS, color = null, flags = ANIMATION_PARALLEL)
-	playsound(src, 'sound/items/baseballhit.ogg', 100, TRUE)
-	user.do_attack_animation(target, used_item = src)
-	ADD_TRAIT(user, TRAIT_IMMOBILIZED, type)
-	addtimer(CALLBACK(src, PROC_REF(launch_back), target, user, return_to_sender, datum_throw_speed), 0.5 SECONDS)
-	return TRUE
-
-/obj/item/melee/baseball_bat/proc/launch_back(atom/movable/target, mob/living/user, turf/target_turf, datum_throw_speed)
-	playsound(target, 'sound/effects/magic/tail_swing.ogg', 50, TRUE)
-	REMOVE_TRAIT(user, TRAIT_IMMOBILIZED, type)
-	target.mouse_opacity = initial(target.mouse_opacity)
-	target.add_filter("baseball_launch", 3, motion_blur_filter(1, 3))
-	target.throwforce *= 2
-	target.throw_at(target_turf, get_dist(target, target_turf), datum_throw_speed + 1, user, callback = CALLBACK(src, PROC_REF(on_hit), target))
-	thrown_datums[target] = target.throwing
-
-/obj/item/melee/baseball_bat/proc/make_silly()
-	name = "cricket bat"
-	icon_state = "baseball_bat_brit"
-	inhand_icon_state = "baseball_bat_brit"
-	desc = pick("You've got red on you.", "You gotta know what a crumpet is to understand cricket.")
-
-/obj/item/melee/baseball_bat/proc/on_hit(atom/movable/target)
-	target.remove_filter("baseball_launch")
-	target.throwforce *= 0.5
-	thrown_datums -= target
+	return ..()
 
 /obj/item/melee/baseball_bat/homerun
 	name = "home run bat"
@@ -1072,25 +1102,59 @@ for further reading, please see: https://github.com/tgstation/tgstation/pull/301
 	homerun_able = TRUE
 	mob_thrower = TRUE
 
-/obj/item/melee/baseball_bat/ablative
+/obj/item/melee/baseball_bat/ablative_bat
 	name = "metal baseball bat"
 	desc = "This bat is made of highly reflective, highly armored material."
-	icon_state = "baseball_bat_metal"
-	inhand_icon_state = "baseball_bat_metal"
+	icon = 'icons/obj/weapons/bat.dmi'
+	icon_state = "baseball_bat_metal0"
+	base_icon_state = "baseball_bat_metal"
 	custom_materials = list(/datum/material/titanium = SHEET_MATERIAL_AMOUNT * 3.5)
-	resistance_flags = NONE
-	force = 20
-	throwforce = 20
-	mob_thrower = TRUE
+	resistance_flags = FIRE_PROOF
+	lefthand_file = 'icons/mob/inhands/weapons/melee_lefthand.dmi'
+	righthand_file = 'icons/mob/inhands/weapons/melee_righthand.dmi'
+	worn_icon_state = "baseball_bat_metal"
+	slot_flags = ITEM_SLOT_BELT | ITEM_SLOT_BACK
+	armor_type = /datum/armor/item_baseballbat
+	force = 10
+	wound_bonus = -10
+	throwforce = 15
+	demolition_mod = 1.25
+	attack_verb_continuous = list("beats", "clangs","tumps", "smacks")
+	attack_verb_simple = list("beat", "smack","tump")
 	block_sound = 'sound/items/weapons/effects/batreflect.ogg'
+	obj_flags = UNIQUE_RENAME | CONDUCTS_ELECTRICITY
+	block_chance = 40
+	max_integrity = 50
+	w_class = WEIGHT_CLASS_HUGE
+	force_unwielded = 15
+	force_wielded = 25
+	homerun_able = TRUE
+	icon_prefix = "baseball_bat_metal0"
+	deflectmode = TRUE // deflect small/medium thrown objects
+	shield_break_leftover = /obj/item/stack/sheet/mineral/titanium
 
-/obj/item/melee/baseball_bat/ablative/IsReflect()//some day this will reflect thrown items instead of lasers
+/datum/armor/item_baseballbat
+	melee = 10
+	wound = 10
+
+/obj/item/melee/baseball_bat/ablative_bat/IsReflect()//some day this will reflect thrown items instead of lasers
 	return TRUE
 
-// In case you ever want to spawn it via map/admin console
-/obj/item/melee/baseball_bat/british/Initialize(mapload)
-	. = ..()
-	make_silly()
+	AddElement(/datum/element/kneecapping)
+	AddComponent(/datum/component/two_handed, force_unwielded=force_unwielded, force_wielded=force_wielded, icon_wielded="[base_icon_state]1")
+
+/obj/item/melee/baseball_bat/ablative_bat/attackby(obj/item/attackby_item, mob/user, list/modifiers)
+	if(istype(attackby_item, /obj/item/stack/sheet/mineral/titanium))
+		if (atom_integrity >= max_integrity)
+			to_chat(user, span_warning("[src] is already in perfect condition."))
+			return
+		var/obj/item/stack/sheet/mineral/titanium/titanium_sheet = attackby_item
+		titanium_sheet.use(1)
+		atom_integrity = max_integrity
+		to_chat(user, span_notice("You repair [src] with [titanium_sheet]."))
+		return
+	return ..()
+
 
 /obj/item/melee/flyswatter
 	name = "flyswatter"
@@ -1374,3 +1438,5 @@ for further reading, please see: https://github.com/tgstation/tgstation/pull/301
 		balloon_alert(user, "you're too weak!")
 		return
 	return ..()
+
+#undef BATON_BASH_COOLDOWN

@@ -16,6 +16,22 @@
 	wound_bonus = 10 //scalpel tier
 	bare_wound_bonus = 20 // Very-bigly
 
+/obj/item/knife/trench
+	name = "\improper Trench Knife"
+	desc = "A frontiersman's classic, closer to a shortsword than a knife. It boasts a full-tanged build, a brass handguard and pommel, a wicked sharp point, and a large, heavy blade, It's almost everything you could want in a knife, besides portability."
+	icon = 'modular_nova/modules/knives/icons/bowie.dmi'
+	icon_state = "trenchknife"
+	inhand_icon_state = "knife_trench"
+	lefthand_file = 'modular_nova/modules/knives/icons/bowie_lefthand.dmi'
+	righthand_file = 'modular_nova/modules/knives/icons/bowie_righthand.dmi'
+	worn_icon_state = "knife"
+	force = 20 // Zoowee Momma!
+	w_class = WEIGHT_CLASS_NORMAL
+	block_chance = 5
+	throwforce = 15
+	wound_bonus = 10 //scalpel tier
+	bare_wound_bonus = 20 // Very-bigly
+
 /obj/item/storage/belt/bowie_sheath
 	name = "\improper Bowie knife sheath"
 	desc = "A dressed-up leather sheath featuring a brass tip. It has a large pocket clip right in the center, for ease of carrying an otherwise burdensome knife."

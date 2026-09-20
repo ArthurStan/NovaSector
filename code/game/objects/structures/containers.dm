@@ -225,3 +225,39 @@
 	name = "\improper Exagon-Ichikawa bulk plasma tank"
 	desc = "A standard-measure gas tank for bulk transport of gases. This one is from Exagon-Ichikawa, Cybersun Industries' mining and refining subdivision, and contains gaseous plasma most likely sourced from Mars."
 	icon_state = "exagon_gas_plasma"
+
+/obj/structure/shipping_container/gas/exagon
+	name = "\improper Exagon-Ichikawa bulk plasma tank"
+	desc = "A standard-measure gas tank for bulk transport of gases. This one is from Exagon-Ichikawa, Cybersun Industries' mining and refining subdivision, and contains gaseous plasma most likely sourced from Mars."
+	icon_state = "exagon_gas_plasma"
+
+
+/obj/structure/shipping_container/generator
+	name = "Liquid Plasma Refinery Generator"
+	desc = "A relic from the times when ."
+	icon = 'icons/obj/machinery.dmi'
+	icon_state = "generator_burn"
+	max_integrity = 1000
+	bound_width = 96
+	bound_height = 32
+	density = TRUE
+	anchored = TRUE
+	layer = ABOVE_ALL_MOB_LAYER
+	plane = ABOVE_GAME_PLANE
+
+
+
+/obj/structure/shipping_container/castle
+	name = "Bookstore"
+	desc = "A NT owned Bookstore dedicated to sell...Guess what?"
+	icon = 'icons/obj/fluff/rooms.dmi'
+	icon_state = "castle"
+	max_integrity = 5000
+	bound_width = 582
+	bound_height = 421
+	density = FALSE
+	anchored = TRUE
+	layer = TABLE_LAYER
+	plane = ABOVE_GAME_PLANE
+	pass_flags_self = LETPASSTHROW
+

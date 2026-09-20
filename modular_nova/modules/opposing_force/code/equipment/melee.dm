@@ -37,7 +37,7 @@
 	description = "A variant of the energy sword styled as a cutlass. Pirate costume sold separately. Warranty void if bought."
 
 /datum/opposing_force_equipment/melee/metalbat
-	item_type = /obj/item/melee/baseball_bat/ablative
+	item_type = /obj/item/melee/baseball_bat/ablative_bat
 	description = "A highly reflective baseball bat for when you need to crack skulls and run away from security in the same night. Can reflect lasers."
 	admin_note = "WARNING: Notably strong on sec not using ballistics."
 

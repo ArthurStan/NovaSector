@@ -2154,6 +2154,37 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/sign/poster/contraband/korpstech, 32)
 	inhand_icon_state = "bovinesignature"
 	can_adjust = TRUE
 
+/obj/item/clothing/suit/hooded/seva/bovine
+	name = "<b>THE TAURUS SIEGE SYSTEM</b> Suit"
+	desc = "A SEVA suit stripped of ‘hazard containment’ pretense. This is siegecraft made flesh. Scorch marks pattern the green plating like battle flags. The red arm thrums impatiently. You smell ozone, iron, and raw kinetic fury. "
+	icon = 'modular_nova/master_files/icons/donator/obj/clothing/suits.dmi'
+	worn_icon = 'modular_nova/master_files/icons/donator/mob/clothing/suit.dmi'
+	icon_state = "bullhard"
+	hoodtype = /obj/item/clothing/head/hooded/seva/bovine
+	hood_up_affix = ""
+
+/obj/item/clothing/head/hooded/seva/bovine
+	name = "sundowner hood"
+	desc = "Designed for the SolFed Army Corps of Engineers, the original version came with armor plates and a hardened glass faceplate. This one has been scaled down, unfortunately."
+	icon = 'modular_nova/master_files/icons/donator/obj/clothing/hats.dmi'
+	worn_icon = 'modular_nova/master_files/icons/donator/mob/clothing/head.dmi'
+	worn_icon_muzzled = 'modular_nova/master_files/icons/donator/mob/clothing/head_muzzled.dmi'
+	icon_state = "bullhardhe"
+
+/obj/item/clothing/mask/gas/glass/predator
+	name = "Yautja Visor"
+	desc = "Designed for the SolFed Army Corps of Engineers, the original version came with armor plates and a hardened glass faceplate. This one has been scaled down, unfortunately."
+	icon = 'modular_nova/master_files/icons/donator/obj/clothing/hats.dmi'
+	worn_icon = 'modular_nova/master_files/icons/donator/mob/clothing/head.dmi'
+	icon_state = "predbull"
+
+/obj/item/clothing/shoes/bullshoes
+	name = "Noble Boots"
+	desc = "A pair of form fitting heels. They appear to bear no distinguishing identifiers."
+	icon = 'modular_nova/master_files/icons/donator/obj/clothing/shoes.dmi'
+	worn_icon = 'modular_nova/master_files/icons/donator/mob/clothing/feet.dmi'
+	icon_state = "noble_boot"
+
 // donator reward for ignari
 /obj/item/clothing/under/rem
 	name = "\improper M.I.A. limiter"

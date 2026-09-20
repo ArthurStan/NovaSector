@@ -28,3 +28,11 @@
 	var/obj/item/instrument/piano_synth/piano = new(src)
 	ai_controller.set_blackboard_key(BB_SONG_INSTRUMENT, piano)
 	update_appearance(UPDATE_ICON)
+
+/mob/living/basic/bot/vibebot/koi
+	name = "\improper K.O.I's Server Chassis"
+	desc = "A bulky floating server robot."
+	icon = 'icons/mob/silicon/aibots.dmi'
+	icon_state = "koi_server"
+	base_icon_state = "koi_server"
+

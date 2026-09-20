@@ -1021,6 +1021,19 @@
 	buildstack = /obj/item/stack/sheet/plastitaniumglass
 	max_integrity = 300
 
+	/obj/structure/table/reinforced/escritoire
+	name = "Escritoire Table"
+	desc = "A sturdy and hand-crafted fancy piece of furniture, custom built to fit this corner of the wall, the wood is aged and smooth, but strong enough to handle heavy work being done atop of it."
+	icon = 'icons/obj/smooth_structures/escritoiretable.dmi'
+	icon_state = "tableclear-0"
+	base_icon_state = "tableclear"
+	deconstruction_ready = FALSE
+	buildstack = /obj/item/grown/log
+	max_integrity = 200
+	integrity_failure = 0.25
+	armor_type = /datum/armor/table_reinforced
+	can_flip = FALSE
+
 /*
  * Surgery Tables
  */

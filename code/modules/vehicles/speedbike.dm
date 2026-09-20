@@ -32,3 +32,24 @@
 /obj/vehicle/ridden/speedbike/red
 	icon_state = "speedbike_red"
 	cover_iconstate = "cover_red"
+
+/obj/vehicle/ridden/speedbike/arrowpod
+	name = "Arrowhead SpacePod"
+	icon = 'icons/mob/rideables/vehicles_large.dmi'
+	icon_state = "arrowhead_pod"
+	cover_iconstate = "coverarrow_pod"
+	pixel_y = -80
+	pixel_x = -80
+	can_buckle = TRUE
+	max_integrity = 2000
+
+/obj/vehicle/ridden/speedbike/brigapod
+	name = "Brigand SpacePod"
+	icon = 'icons/mob/rideables/vehicles_large.dmi'
+	icon_state = "brigand_pod"
+	cover_iconstate = "coverbriga_pod"
+	pixel_y = -200
+	pixel_x = -48
+	can_buckle = TRUE
+	max_integrity = 2000
+

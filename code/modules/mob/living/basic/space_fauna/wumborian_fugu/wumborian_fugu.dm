@@ -61,3 +61,13 @@
 /mob/living/basic/wumborian_fugu/Destroy()
 	QDEL_NULL(expand)
 	return ..()
+
+
+/mob/living/basic/wumborian_fugu/reptor
+	name = "Reptor"
+	desc = "The Reptilistic Carnous. A giant beast native from the Elysian Republic."
+	icon = 'icons/mob/simple/lavaland/64x64megafauna.dmi'
+	icon_state = "Reptor"
+	icon_living = "Reptor"
+	icon_dead = "Reptor_dead"
+

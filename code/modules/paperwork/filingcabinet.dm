@@ -30,6 +30,20 @@
 /obj/structure/filingcabinet/filingcabinet //not changing the path to avoid unnecessary map issues, but please don't name stuff like this in the future -Pete
 	icon_state = "tallcabinet"
 
+/obj/structure/filingcabinet/brightwoodcabinet
+	name = "Brightwood Cabinet"
+	desc = "An somewhat luxurious clothing cabinet made of a special type of wood."
+	icon = 'icons/obj/service/bureaucracy.dmi'
+	icon_state = "cabinet"
+	density = FALSE
+
+/obj/structure/filingcabinet/tablecabinet
+	name = "Escritoire Cabinet"
+	desc = "This fine piece of carpentry was specially commissioned to fit the corner of this wall, while also carrying enough drawers to help with the organization of any project."
+	icon = 'icons/obj/service/bureaucracy.dmi'
+	icon_state = "tablecabinet"
+	density = FALSE
+
 /obj/structure/filingcabinet/Initialize(mapload)
 	. = ..()
 	if(mapload)
@@ -114,6 +128,31 @@
 			return
 	to_chat(user, span_notice("You find nothing in [src]."))
 
+
+/obj/structure/filingcabinet/brightwoodcabinet/Initialize(mapload)
+	. = ..()
+	if(mapload)
+		for(var/obj/item/I in loc)
+			if(I.w_class < WEIGHT_CLASS_HUGE) //there probably shouldn't be anything placed ontop of filing cabinets in a map that isn't meant to go in them
+				I.forceMove(src)
+
+/obj/structure/filingcabinet/brightwoodcabinet/attackby(obj/item/P, mob/living/user, list/modifiers)
+	if(P.tool_behaviour == TOOL_WRENCH && LAZYACCESS(modifiers, RIGHT_CLICK))
+		to_chat(user, span_notice("You begin to [anchored ? "unwrench" : "wrench"] [src]."))
+		if(P.use_tool(src, user, 20, volume=50))
+			to_chat(user, span_notice("You successfully [anchored ? "unwrench" : "wrench"] [src]."))
+			set_anchored(!anchored)
+	else if(P.w_class < WEIGHT_CLASS_HUGE)
+		if(!user.transferItemToLoc(P, src))
+			return
+		to_chat(user, span_notice("You put [P] in [src]."))
+		icon_state = "[initial(icon_state)]-open"
+		sleep(0.5 SECONDS)
+		icon_state = initial(icon_state)
+	else if(!user.combat_mode || (P.item_flags & NOBLUDGEON))
+		to_chat(user, span_warning("You can't put [P] in [src]!"))
+	else
+		return ..()
 /*
  * Security Record Cabinets
  */

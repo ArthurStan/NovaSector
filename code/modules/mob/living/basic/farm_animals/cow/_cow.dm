@@ -100,3 +100,82 @@
 		return
 	ai_controller.set_blackboard_key(BB_BASIC_MOB_TIP_REACTING, TRUE)
 	ai_controller.set_blackboard_key(BB_BASIC_MOB_TIPPER, tipper)
+
+
+/mob/living/basic/cow/elysian_cow
+	name = "Elysian Cow"
+	desc = "An stronger type of cow, known for their delicious meat, accessible only to the Elysium Republic territory and its importers."
+	icon = 'icons/mob/simple/animal64.dmi'
+	icon_state = "BovineF"
+	icon_living = "BovineF"
+	icon_dead = "cow_dead"
+	icon_gib = "cow_gib"
+	gender = FEMALE
+	speak_emote = list("moos","moos hauntingly")
+	speed = 1.5
+	butcher_results = list(/obj/item/food/bbqribs = 4)
+	health = 75
+	maxHealth = 75
+	milked_reagent = /datum/reagent/consumable/cafe_latte
+
+
+/mob/living/basic/cow/elysian_bull
+	name = "Elysian Bull"
+	desc = "An stronger type of bull, known for their delicious meat, accessible only to the Elysium Republic territory and its importers."
+	icon = 'icons/mob/simple/animal64.dmi'
+	icon_state = "BovineM"
+	icon_living = "BovineM"
+	icon_dead = "pony_dead"
+	health = 75
+	maxHealth = 75
+	speed = 1.5
+	gender = MALE
+
+/mob/living/basic/cow/greycow
+	name = "ProtoCow"
+	desc = "A Beast from the era of old colonies, genetically designed to adapt to its enviroment."
+	icon = 'icons/mob/simple/animal64.dmi'
+	icon_state = "GreyCow"
+	icon_living = "GreyCow"
+	icon_dead = "pony_dead"
+	health = 75
+	maxHealth = 75
+	speed = 1.5
+	gender = MALE
+
+
+/mob/living/basic/cow/emammal
+	name = "Elysian Mammal"
+	desc = "A Beast from the era of old colonies, genetically designed to adapt to its enviroment."
+	icon = 'icons/mob/simple/animal64.dmi'
+	icon_state = "emammal_A"
+	icon_living = "emammal_A"
+	icon_dead = "pony_dead"
+	health = 75
+	maxHealth = 75
+	speed = 1.5
+	gender = MALE
+
+/mob/living/basic/cow/ehorse
+	name = "Elysian Horse"
+	desc = "A Beast from the era of old colonies, genetically designed to adapt to its enviroment."
+	icon = 'icons/mob/simple/animal.dmi'
+	icon_state = "horse"
+	icon_living = "horse"
+	icon_dead = "horse_dead"
+	health = 75
+	maxHealth = 75
+	speed = 1.5
+	gender = MALE
+
+/mob/living/basic/cow/egoat
+	name = "Elysian Goat"
+	desc = "A Beast from the era of old colonies, genetically designed to adapt to its enviroment."
+	icon = 'icons/mob/simple/animal.dmi'
+	icon_state = "bighorner"
+	icon_living = "bighorner"
+	icon_dead = "bighorner_dead"
+	health = 75
+	maxHealth = 75
+	speed = 1.5
+	gender = MALE

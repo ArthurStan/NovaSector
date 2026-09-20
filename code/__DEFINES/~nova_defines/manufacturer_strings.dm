@@ -27,6 +27,8 @@
 #define COMPANY_ZCM "It has a stamped in <b>[span_grey("matte white rectangle")]</b> with <b>[span_grey("Zvirdnyan Colonial Militia")]</b> legible at a certain angle." //-nyan :3
 
 #define COMPANY_ABDUCTOR "It has <b>[span_abductor("✌︎︎♌︎︎♎︎︎◆︎︎♍︎︎⧫︎︎❄︎♏︎♍︎♒︎")]</b> engraved into it."
+#define COMPANY_PIRATEGUILD "It has the image of a <b>[span_orange("✧Skull and Cutlasses✧")]</b> alongside the mark of a <b>[span_orange("✧Hook and Star✧")]</b> roughly engraved into it."
+#define COMPANY_ELYSIAN "It has the <i>[span_green("Lightning and Fist")]</i> insignia of a <i>[span_green("Providence Constructivist Yard")]</i>, with markings pointing to the <b><i>[span_green("Elysian Republic")]</i></b> laser-etched into it."
 
 #define COMPANY_FRONTIER "It has a small label with <b>[span_engradio("Akhter Company Frontier Equipment")]</b> printed on it, alongside various xerxian proof-marks."
 #define COMPANY_KAHRAMAN "It has a <b>[span_red("red label")] with <b>[span_red("K - A - S")]</b> printed on it, alongside various xerxian proof-marks.</b>"

@@ -70,3 +70,12 @@
 		/datum/ai_planning_subtree/find_and_hunt_target/look_for_light_fixtures,
 		/datum/ai_planning_subtree/random_speech/faithless,
 	)
+
+/mob/living/basic/faithless/redspace
+	name = "The Redspace Entity"
+	desc = "An entity straight from redspace, incarnation of the chaos and hatred from that era."
+	icon = 'icons/mob/simple/animal64.dmi'
+	icon_state = "RedDemon"
+	icon_living = "RedDemon"
+	icon_dead = "faithless_dead"
+

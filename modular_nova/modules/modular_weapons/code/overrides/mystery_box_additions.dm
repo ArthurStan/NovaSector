@@ -45,7 +45,7 @@ GLOBAL_LIST_INIT(nova_funny_mystery_box_items, list(
 	/obj/item/autosurgeon/syndicate/sandy,
 	/obj/item/autosurgeon/syndicate/razorwire,
 	/obj/item/shield/ballistic,
-	/obj/item/melee/baseball_bat/ablative,
+	/obj/item/melee/baseball_bat/ablative_bat,
 	/obj/item/melee/baseball_bat/homerun,
 	/obj/item/clothing/shoes/gunboots/dm,
 ))
